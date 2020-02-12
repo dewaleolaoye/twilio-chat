@@ -1,26 +1,27 @@
 import React, { useEffect, useState } from "react"
-// import useTwilioVideo from "../hooks/use-twilio"
-// import { navigate } from "gatsby"
+import useTwilioChat from "../hooks/use-twilio"
+import { navigate } from "gatsby"
 
 const Join = ({ location }) => {
-  // const defaultRoom =
-  //   (location && location.state && location.state.roomName) || '';
+  const defaultRoom =
+    (location && location.state && location.state.roomName) || ""
   // const defaultSession =
   //   (location && location.state && location.state.sessionId) || null;
-  // const { state, getRoomToken } = useTwilioVideo();
-  // const [identity, setIdentity] = useState('');
-  // const [roomName, setRoomName] = useState(defaultRoom);
+  const { state, getToken, joinChat } = useTwilioChat()
+  const [identity, setIdentity] = useState("")
+  const [roomName, setRoomName] = useState(defaultRoom)
 
-  // useEffect(() => {
-  //   if (state.token && state.roomName) {
-  //     navigate(`/room/${state.roomName}/${state.sessionId}`);
-  //   }
-  // }, [state]);
+  useEffect(() => {
+    if (state.token && state.roomName) {
+      navigate(`/room/${state.roomName}`)
+    }
+  }, [state, joinChat, getToken])
 
   const handleSubmit = event => {
     event.preventDefault()
+    console.log(identity, roomName)
 
-    // getRoomToken({ identity, roomName, sessionId: defaultSession });
+    joinChat({ identity, roomName })
   }
 
   return (
@@ -34,8 +35,8 @@ const Join = ({ location }) => {
           <input
             type="text"
             id="identity"
-            // value={identity}
-            // onChange={event => setIdentity(event.target.value)}
+            value={identity}
+            onChange={event => setIdentity(event.target.value)}
           />
         </label>
         <label htmlFor="roomName">
@@ -43,11 +44,11 @@ const Join = ({ location }) => {
           <input
             type="text"
             id="roomName"
-            // value={roomName}
-            // onChange={event => setRoomName(event.target.value)}
+            value={roomName}
+            onChange={event => setRoomName(event.target.value)}
           />
         </label>
-        <button type="submit">Join Video Chat</button>
+        <button type="submit">Join Chat</button>
       </form>
     </>
   )

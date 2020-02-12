@@ -8,6 +8,7 @@ import Join from "../components/join"
 
 const IndexPage = ({ location }) => (
   <Layout>
+    {console.log("loooooooooooocation,", location)}
     <Join location={location} />
   </Layout>
 )
